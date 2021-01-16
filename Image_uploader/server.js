@@ -10,6 +10,9 @@ app.use(express.json());
 //serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+//connect mongodb database
+require('./server/database/database')();
+
 //setup view engine
 app.set('view engine', 'hbs');
 app.engine(
@@ -22,10 +25,8 @@ app.engine(
   })
 );
 
-//routes
-app.get('/', (req, res) => {
-  res.render('main');
-});
+//calling routes
+app.use('/', require('./server/router/router'));
 
 app.listen(3000, () =>
   console.log('server is started on http://localhost:3000')
